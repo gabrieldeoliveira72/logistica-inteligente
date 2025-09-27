@@ -39,12 +39,10 @@ logs/
 *.temp
 *.cache
 
-# Arquivos de saída gerados
-outputs/
-*.png
-*.jpg
-*.jpeg
-*.gif
+# Arquivos de saída gerados (exceto demonstrações)
+outputs/*
+!outputs/fatigue_simulation.png
+!outputs/route_visualization.png
 
 # Arquivos de configuração sensíveis
 .env
