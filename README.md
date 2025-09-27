@@ -159,7 +159,7 @@ O sistema gera duas visualizações principais:
 
 ## 👨‍💻 Autor
 
-**Seu Nome**
+**Gabriel de Oliveira*
 - GitHub: [gabrieldeoliveira72](https://github.com/gabrieldeoliveira72)
 
 
