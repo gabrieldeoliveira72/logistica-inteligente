@@ -1,0 +1,74 @@
+# Ambiente virtual
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Arquivos de cache do Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+
+# Arquivos de sistema
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Arquivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Arquivos de log
+*.log
+logs/
+
+# Arquivos temporários
+*.tmp
+*.temp
+*.cache
+
+# Arquivos de saída gerados
+outputs/
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Arquivos de configuração sensíveis
+.env
+.env.local
+.env.production
+config.json
+secrets.json
+credentials.json
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Arquivos de dados sensíveis (se houver)
+data/sensitive/
+*.db
+*.sqlite
+*.db3
+
+# Arquivos de backup
+*.bak
+*.backup
+*.old
+
+# Arquivos de teste
+test_outputs/
+test_results/

@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "nome": "Cliente A",
+        "lat": -23.5505,
+        "lon": -46.6333
+    },
+    {
+        "id": 2,
+        "nome": "Cliente B",
+        "lat": -23.5489,
+        "lon": -46.6388
+    },
+    {
+        "id": 3,
+        "nome": "Cliente C",
+        "lat": -23.5505,
+        "lon": -46.629
+    },
+    {
+        "id": 4,
+        "nome": "Cliente D",
+        "lat": -23.5587,
+        "lon": -46.6358
+    },
+    {
+        "id": 5,
+        "nome": "Cliente E",
+        "lat": -23.5465,
+        "lon": -46.6401
+    }
+]

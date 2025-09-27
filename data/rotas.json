@@ -1,0 +1,27 @@
+[
+    {
+        "origem": 1,
+        "destino": 2,
+        "distancia": 5.2
+    },
+    {
+        "origem": 2,
+        "destino": 3,
+        "distancia": 7.8
+    },
+    {
+        "origem": 3,
+        "destino": 4,
+        "distancia": 3.5
+    },
+    {
+        "origem": 4,
+        "destino": 5,
+        "distancia": 6.2
+    },
+    {
+        "origem": 5,
+        "destino": 1,
+        "distancia": 8.1
+    }
+]
