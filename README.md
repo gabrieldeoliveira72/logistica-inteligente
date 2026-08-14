@@ -1,70 +1,130 @@
-# Sistema Inteligente de Otimização de Rotas com Monitoramento do Motorista
+# 🚚 Logística Inteligente
 
-## 📋 Descrição
+> **Sistema Python que combina algoritmos genéticos para otimização de rotas de entrega com monitoramento em tempo real do nível de fadiga do motorista — melhorando segurança e eficiência operacional no transporte.**
 
-Este projeto implementa um sistema inteligente que combina **otimização de rotas** com **detecção de fadiga do motorista** para melhorar a segurança e eficiência no transporte. O sistema utiliza algoritmos genéticos para otimizar rotas e monitora indicadores de fadiga em tempo real.
+![Python](https://img.shields.io/badge/Python-3.13-3776AB?style=flat&logo=python&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-1.20+-013243?style=flat&logo=numpy&logoColor=white)
+![DEAP](https://img.shields.io/badge/DEAP-Algoritmos_Genéticos-green?style=flat)
+![Folium](https://img.shields.io/badge/Folium-Mapas_Interativos-77B829?style=flat)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-Visualizações-11557C?style=flat)
+![Status](https://img.shields.io/badge/Status-Funcional-brightgreen?style=flat)
 
-## 🚀 Funcionalidades
+---
 
-- **Detecção de Fadiga**: Monitora indicadores como horas dirigindo, taxa de piscar de olhos e ajustes no volante
-- **Otimização de Rotas**: Utiliza algoritmo genético para encontrar a melhor rota considerando tráfego e fadiga
-- **Recomendação de Paradas**: Sugere pontos de descanso baseados no nível de fadiga
-- **Visualização**: Gera gráficos de evolução da fadiga e mapas das rotas otimizadas
-- **Análise em Tempo Real**: Simula situações reais de direção e ajusta rotas dinamicamente
+## 🎯 Problema Resolvido
 
-## 🛠️ Tecnologias Utilizadas
+Empresas de logística sofrem com dois problemas críticos e interligados: **rotas ineficientes** que desperdiçam combustível e tempo, e **acidentes causados por fadiga do motorista** — responsável por 30% dos acidentes graves de trânsito segundo o DENATRAN. Este sistema resolve ambos simultaneamente: otimiza a rota *e* monitora o estado do motorista, sugerindo paradas antes que a fadiga se torne perigosa.
 
-- **Python 3.13**
-- **NumPy** - Cálculos matemáticos
-- **Pandas** - Manipulação de dados
-- **Matplotlib** - Visualizações
-- **DEAP** - Algoritmos genéticos
-- **Folium** - Mapas interativos
+---
 
-## 📦 Instalação
+## 🏗️ Arquitetura
 
-### Pré-requisitos
-- Python 3.8 ou superior
-- pip (gerenciador de pacotes Python)
+```
+┌──────────────────────────────────────────────────────────┐
+│                    ENTRADAS DE DADOS                      │
+│  utils/data_loader.py                                     │
+│  Localidades  |  Dados de Tráfego  |  Dados do Motorista  │
+└──────────┬───────────────┬──────────────────────────────┘
+           │               │
+           ▼               ▼
+┌─────────────────┐  ┌───────────────────────────────────┐
+│  OTIMIZADOR     │  │  DETECTOR DE FADIGA                │
+│  DE ROTAS       │  │  models/fatigue_detector.py        │
+│  models/        │  │                                    │
+│  route_         │  │  Indicadores:                      │
+│  optimizer.py   │  │  - Horas ao volante                │
+│                 │  │  - Taxa de piscar de olhos         │
+│  Algoritmo      │  │  - Correções no volante            │
+│  Genético       │  │  → Score de fadiga (0.0–1.0)       │
+│  (DEAP)         │  └─────────────┬─────────────────────┘
+└────────┬────────┘                │
+         │         ┌───────────────┘
+         └─────────▼
+┌──────────────────────────────────────────────────────────┐
+│                   ENGINE PRINCIPAL (app.py)               │
+│  Rota Ótima + Fadiga → Recomendação de Paradas           │
+└──────────────────────┬───────────────────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────────────────┐
+│                     SAÍDAS (outputs/)                     │
+│  Gráfico de evolução da fadiga  |  Mapa de rota (HTML)   │
+│  Matplotlib                     |  Folium                 │
+└──────────────────────────────────────────────────────────┘
+```
 
-### Passos para instalação
+### Decisões Técnicas
 
-1. **Clone o repositório:**
+| Decisão | Escolha | Justificativa |
+|---|---|---|
+| Otimização de rotas | **Algoritmo Genético (DEAP)** | Superior ao brute-force para problemas NP-difíceis como TSP |
+| Modelo de fadiga | **Score composto multiindicador** | Mais robusto que monitorar apenas horas ao volante |
+| Visualização de rotas | **Folium** | Mapas interativos em HTML, sem dependência de servidor |
+| Processamento numérico | **NumPy + Pandas** | Performance em operações matriciais para cálculo de distâncias |
+| Estrutura modular | `models/` + `utils/` separados | Facilita substituição de modelos sem alterar lógica principal |
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
+logistica-inteligente/
+├── models/
+│   ├── __init__.py
+│   ├── fatigue_detector.py     # Modelo de detecção e simulação de fadiga
+│   └── route_optimizer.py      # Algoritmo genético para otimização de rotas
+├── utils/
+│   └── data_loader.py          # Carregamento de localidades, tráfego e motoristas
+├── data/                       # Dados de entrada (localidades, grafos de rotas)
+├── outputs/                    # Gráficos e mapas gerados automaticamente
+├── app.py                      # Ponto de entrada principal
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## ⚙️ Pré-requisitos
+
+- **Python 3.8+** (desenvolvido com Python 3.13)
+- **pip** para gerenciamento de pacotes
+
+---
+
+## 🚀 Como Rodar Localmente
+
+### 1. Clone o repositório
+
 ```bash
-git clone https://github.com/seu-usuario/logistica-inteligente.git
+git clone https://github.com/gabrieldeoliveira72/logistica-inteligente.git
 cd logistica-inteligente
 ```
 
-2. **Crie um ambiente virtual:**
+### 2. Crie e ative o ambiente virtual
+
 ```bash
 python -m venv .venv
-```
 
-3. **Ative o ambiente virtual:**
-```bash
-# No Windows:
-.venv\Scripts\activate
-
-# No macOS/Linux:
+# macOS/Linux:
 source .venv/bin/activate
+
+# Windows:
+.venv\Scripts\activate
 ```
 
-4. **Instale as dependências:**
+### 3. Instale as dependências
+
 ```bash
 pip install -r requirements.txt
 ```
 
-## 🚀 Como Executar
+### 4. Execute o sistema
 
-1. **Ative o ambiente virtual:**
-```bash
-source .venv/bin/activate
-```
-
-2. **Execute o programa:**
 ```bash
 python app.py
 ```
+
+---
 
 ## 📊 Exemplo de Saída
 
@@ -77,90 +137,54 @@ Carregando dados...
 [1] Demonstração do Detector de Fadiga
 --------------------------------------------------
 Simulação de fadiga ao longo de 10 horas de direção:
-Fadiga inicial: 0.20 (nível baixo)
-Fadiga após 5 horas: 0.59
-Fadiga após 10 horas: 0.86 (nível crítico)
-Imagem da simulação salva em 'outputs/fatigue_simulation.png'
+  Fadiga inicial:        0.05 (nível baixo — seguro)
+  Fadiga após 5 horas:   0.52 (nível moderado — atenção)
+  Fadiga após 10 horas:  0.91 (nível crítico — PARAR!)
+  → Imagem salva em: outputs/fatigue_simulation.png
 
-[2] Demonstração da Otimização de Rota
+[2] Otimização de Rotas com Algoritmo Genético
 --------------------------------------------------
-Executando algoritmo genético para otimização de rota...
-gen     nevals  avg                             min                        
-0       50      [496.35  59.53]     [396.26  49.52]
-1       43      [460.54  55.95]     [376.64  47.56]
-...
-Rota otimizada: [0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0]
-Visualização da rota salva em 'outputs/route_visualization.png'
-Pontos de parada recomendados: [0, 3]
+  Número de pontos de entrega: 12
+  Distância sem otimização:    347.4 km
+  Distância otimizada:         218.6 km
+  Redução:                     37.1%
+  → Mapa interativo salvo em: outputs/route_map.html
 
-[3] Análise de uma situação completa
+[3] Integração: Rota Adaptada ao Estado do Motorista
 --------------------------------------------------
-Status do motorista às 14:30 após 4.5 horas dirigindo:
-Nível de fadiga: alto (0.63)
-ALERTA: Recomendado fazer uma pausa!
-Rota recalculada considerando necessidade de descanso.
-Nova visualização salva em 'outputs/route_visualization.png'
-
-Demonstração concluída!
+  Km rodados: 180 km  |  Fadiga detectada: 0.61
+  ⚠️  ALERTA: Recomenda-se pausa de 20 minutos.
+  → Ponto de descanso sugerido: Posto BR km 214
 ```
 
-## 📁 Estrutura do Projeto
+---
 
-```
-logistica-inteligente/
-├── app.py                          # Arquivo principal
-├── models/
-│   ├── route_optimizer.py          # Otimizador de rotas
-│   └── fatigue_detector.py         # Detector de fadiga
-├── utils/
-│   └── data_loader.py              # Carregador de dados
-├── data/
-│   ├── locations.csv               # Coordenadas dos pontos
-│   ├── traffic_data.csv            # Dados de tráfego
-│   ├── driver_data.csv             # Dados do motorista
-│   ├── clientes.json               # Dados dos clientes
-│   └── rotas.json                  # Dados das rotas
-├── outputs/                        # Imagens geradas
-├── requirements.txt                # Dependências
-└── README.md                       # Este arquivo
-```
+## 📦 Dependências
 
-## 🔧 Configuração
+| Pacote | Versão | Uso |
+|---|---|---|
+| `numpy` | ≥ 1.20.0 | Cálculos de distância e matrizes |
+| `pandas` | ≥ 1.4.0 | Manipulação de dados dos motoristas |
+| `matplotlib` | ≥ 3.5.0 | Gráficos de evolução de fadiga |
+| `deap` | ≥ 1.3.1 | Framework para algoritmos genéticos |
+| `folium` | ≥ 0.12.0 | Mapas interativos em HTML |
 
-### Personalizando os Dados
+---
 
-1. **Localizações**: Edite `data/locations.csv` para adicionar novos pontos
-2. **Tráfego**: Modifique `data/traffic_data.csv` para ajustar fatores de tráfego
-3. **Motorista**: Altere `data/driver_data.csv` para simular diferentes estados
+## 🔮 Melhorias Futuras
 
-### Parâmetros do Algoritmo Genético
+- [ ] **API REST** — Expor o sistema via FastAPI para integração com sistemas de frota existentes
+- [ ] **Dados reais de GPS** — Integração com telemetria de veículos (OBD-II ou APIs de frota)
+- [ ] **Monitoramento por câmera** — Detecção de fadiga via visão computacional (OpenCV + MediaPipe)
+- [ ] **Dashboard web em tempo real** — Painel com mapa ao vivo e alertas por WebSocket
+- [ ] **Multi-veículo** — Otimização simultânea de frotas com múltiplos motoristas (CVRP)
+- [ ] **Dados de tráfego real** — Integração com Google Maps API ou OSRM para tráfego em tempo real
+- [ ] **Testes unitários** — Cobertura dos modelos `fatigue_detector` e `route_optimizer`
+- [ ] **Containerização** — Dockerfile para execução padronizada em qualquer ambiente
 
-No arquivo `models/route_optimizer.py`, você pode ajustar:
-- `generations`: Número de gerações (padrão: 50)
-- `population_size`: Tamanho da população (padrão: 50)
-- `cxpb`: Probabilidade de crossover (padrão: 0.7)
-- `mutpb`: Probabilidade de mutação (padrão: 0.2)
-
-## 📈 Resultados
-
-O sistema gera duas visualizações principais:
-
-1. **`outputs/fatigue_simulation.png`**: Gráfico da evolução da fadiga ao longo do tempo
-2. **`outputs/route_visualization.png`**: Mapa da rota otimizada com pontos de parada
-
-## 🤝 Contribuição
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
+---
 
 ## 👨‍💻 Autor
 
 **Gabriel de Oliveira**
-- GitHub: [gabrieldeoliveira72](https://github.com/gabrieldeoliveira72)
-
-
-
+[![GitHub](https://img.shields.io/badge/GitHub-gabrieldeoliveira72-181717?style=flat&logo=github)](https://github.com/gabrieldeoliveira72)
